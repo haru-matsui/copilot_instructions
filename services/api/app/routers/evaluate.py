@@ -13,7 +13,6 @@ router = APIRouter(prefix="/v1", tags=["factory-placement"])
 
 
 def _fallback_report_md(result: dict) -> str:
-    # Шаблон по разделу 7.1 ТЗ
     top = result["ranking"][0] if result.get("ranking") else None
     lines: list[str] = []
     lines.append("# Аналитическая справка")
@@ -81,6 +80,7 @@ def post_evaluate(payload: InvestorInputSchema):
         "areas": result["areas"],
         "costs": result["costs"],
         "ranking": result["ranking"],
+        "map_points": result["map_points"],
         "report_md": report_md,
         "debug": {"investor": result["investor"]},
     }

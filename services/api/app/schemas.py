@@ -52,9 +52,21 @@ class RankItemSchema(BaseModel):
     reasons: List[str]
 
 
+class MapPointSchema(BaseModel):
+    id: str
+    name: str
+    lat: float
+    lon: float
+    region_code: str
+    region_name: str
+    site_id: Optional[str] = None
+    score: Optional[float] = None
+
+
 class EvaluationResponseSchema(BaseModel):
     areas: dict
     costs: dict
     ranking: List[RankItemSchema]
+    map_points: List[MapPointSchema] = Field(default_factory=list)
     report_md: Optional[str] = None
     debug: Optional[dict] = None

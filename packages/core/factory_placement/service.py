@@ -6,6 +6,7 @@ from .areas import calc_areas
 from .costs import calc_costs
 from .models import InvestorInput, RankResult
 from .ranking import rank_regions
+from .map_points import build_map_points_from_ranking
 
 
 def evaluate(investor: InvestorInput) -> dict:
@@ -22,10 +23,14 @@ def evaluate(investor: InvestorInput) -> dict:
     costs = calc_costs(areas=areas, housing_type=investor.housing_type, sports=list(investor.sports))
 
     ranking: list[RankResult] = rank_regions(investor)
+    ranking_dicts = [asdict(r) for r in ranking]
+
+    map_points = build_map_points_from_ranking(ranking_dicts)
 
     return {
         "investor": asdict(investor),
         "areas": asdict(areas),
         "costs": asdict(costs),
-        "ranking": [asdict(r) for r in ranking],
+        "ranking": ranking_dicts,
+        "map_points": map_points,
     }

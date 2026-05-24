@@ -3,8 +3,6 @@ from __future__ import annotations
 import os
 import requests
 import streamlit as st
-import folium
-from streamlit_folium import st_folium
 
 
 API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
@@ -16,17 +14,14 @@ st.title("Размещение завода: подбор площадки (MVP 
 with st.sidebar:
     st.header("Параметры инвестора (10 полей)")
 
-    # 3.1 Производство (4 поля в ТЗ, но три числовых + утеплитель)
     volume = st.slider("Объем выпуска (тыс. м²/год)", 100, 1000, 300, 50)
     employees = st.slider("Количество сотрудников", 10, 200, 80, 5)
     budget = st.slider("Бюджет на участок и сети (млн руб)", 10, 300, 120, 10)
     insulation_type = st.selectbox("Тип утеплителя", ["ppu", "minvata", "pps"], index=0)
 
-    # 3.2 Логистика (2)
     needs_railway = st.toggle("Необходима ж/д ветка", value=False)
     max_dist_highway = st.slider("Макс. расстояние до федеральной трассы (км)", 1, 100, 20, 1)
 
-    # 3.3 Архитектура и стиль (2)
     arch = st.selectbox(
         "Архитектурный приоритет",
         ["authentic", "techno", "eco"],
@@ -49,7 +44,6 @@ with st.sidebar:
         format_func=lambda x: x[1],
     )
 
-    # 3.4 Социальные приоритеты (3)
     housing_share = st.select_slider("Жилье сотрудникам (%)", options=[0, 30, 50, 70], value=30)
     housing_type = st.selectbox("Тип жилья", ["none", "dorm", "apartments"], index=1)
 
@@ -73,24 +67,84 @@ with st.sidebar:
     st.caption("LLM (опционально)")
     gemini_api_key = st.text_input("Gemini API key", type="password")
 
+    st.divider()
+    st.caption("Карта")
+    yandex_api_key = st.text_input("Yandex Maps API key", type="password")
+
     run = st.button("Найти участок")
 
 col1, col2 = st.columns([0.55, 0.45])
 
 with col1:
-    st.subheader("Карта")
+    st.subheader("Карта (Yandex Maps)")
 
-    if "marker_location" not in st.session_state:
-        st.session_state.marker_location = [55.75, 37.62]
+    if not yandex_api_key:
+        st.info("Введите Yandex Maps API key в сайдбаре, чтобы отобразить карту.")
+    else:
+        st.caption("Отображаем маркеры ТОП-3 площадок из ответа API.")
 
-    m = folium.Map(location=st.session_state.marker_location, zoom_start=5)
+        # Заготовка HTML карты. Маркеры добавляем после запроса.
+        st.session_state.setdefault("map_points", [])
 
-    map_output = st_folium(m, height=520, returned_objects=["last_clicked"])
-    if map_output and map_output.get("last_clicked"):
-        st.session_state.marker_location = [
-            map_output["last_clicked"]["lat"],
-            map_output["last_clicked"]["lng"],
-        ]
+        points_js = st.session_state.get("map_points") or []
+        # JS для маркеров
+        markers_js = "\n".join(
+            [
+                "new ymaps.Placemark([%s, %s], {balloonContent: '%s'}, {preset: 'islands#redIcon'}),"
+                % (
+                    p["lat"],
+                    p["lon"],
+                    (p["name"] + " — " + p["region_name"] + (f" (score={p.get('score'):.3f})" if p.get("score") else ""))
+                    .replace("'", "\\'")
+                    .replace("\n", " "),
+                )
+                for p in points_js
+            ]
+        )
+
+        map_center = "[55.75, 37.62]"
+        if points_js:
+            map_center = f"[{points_js[0]['lat']}, {points_js[0]['lon']}]"
+
+        html = f"""
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey={yandex_api_key}&lang=ru_RU" type="text/javascript"></script>
+    <style>
+      html, body, #map {{ width: 100%; height: 540px; margin: 0; padding: 0; }}
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      ymaps.ready(function () {{
+        var map = new ymaps.Map('map', {{
+          center: {map_center},
+          zoom: 5
+        }});
+
+        var points = [
+          {markers_js}
+        ];
+
+        points.forEach(function(pm) {{ map.geoObjects.add(pm); }});
+
+        if (points.length > 0) {{
+          var bounds = map.geoObjects.getBounds();
+          if (bounds) {{
+            map.setBounds(bounds, {{checkZoomRange: true, zoomMargin: 40}});
+          }}
+        }}
+      }});
+    </script>
+  </body>
+</html>
+"""
+
+        st.components.v1.html(html, height=560, scrolling=False)
 
 with col2:
     st.subheader("Результаты")
@@ -117,6 +171,9 @@ with col2:
             resp.raise_for_status()
             data = resp.json()
 
+            # сохранить точки для карты
+            st.session_state.map_points = data.get("map_points") or []
+
             st.write("**ТОП-3 региона:**")
             for i, r in enumerate(data["ranking"], start=1):
                 st.write(f"{i}. {r['region_name']} — score={r['score']:.3f}")
@@ -134,6 +191,8 @@ with col2:
             st.divider()
             st.write("**Аналитическая справка (Markdown):**")
             st.markdown(data.get("report_md") or "")
+
+            st.info("Для обновления карты после расчёта нажмите кнопку ещё раз (Streamlit перерендерит HTML).")
 
         except Exception as e:
             st.error(f"Ошибка запроса к API: {e}")
