@@ -13,18 +13,35 @@
       "networks": {
         "gas": true,
         "free_power_mw": 50,
+        "free_power_kva": 650,
         "tp_fee_rub_per_kw": 4500,
-        "distance_to_substation_km": 3
+        "distance_to_substation_km": 3,
+        "nearest_substation_name": "ПС (демо)",
+        "notes": "Значения примерные для демо. Для линии сэндвич-панелей нужно 300–800 кВА (ТЗ)."
       },
       "economy": {
         "avg_salary_rub_2025": 110000,
         "env_index_2024": 240,
         "avg_rent_rub": 50000,
-        "energy_tariff_rub_kwh": 6.5
+        "energy_tariff_rub_kwh": 6.5,
+        "eco_class_iza": 2
       },
       "social": {
         "kindergarten_provision_places_per_100_children": 70,
-        "colleges": ["Колледж (демо)"]
+        "colleges": [
+          {
+            "name": "Колледж (демо)",
+            "specialties": ["сварщики", "операторы ЛПМ", "технологи"]
+          }
+        ]
+      },
+      "market": {
+        "sales_radius_km": 380,
+        "notes": "Фиксированная модель радиуса сбыта 300–500 км (ТЗ)."
+      },
+      "suppliers": {
+        "steel": ["nlmk_lipetsk", "severstal_cherepovets"],
+        "insulation": ["insulation_demo"]
       },
       "sites": [
         {
@@ -32,7 +49,20 @@
           "name": "Площадка 1 (демо)",
           "location": {"lat": 55.90, "lon": 37.50},
           "railway": true,
-          "distance_to_highway_km": 5
+          "distance_to_highway_km": 5,
+          "distance_to_substation_km": 3,
+          "tp_fee_rub_per_kw": 4500,
+          "gas_available": true
+        },
+        {
+          "id": "mosreg-002",
+          "name": "Площадка 2 (демо)",
+          "location": {"lat": 55.60, "lon": 38.10},
+          "railway": false,
+          "distance_to_highway_km": 18,
+          "distance_to_substation_km": 5.5,
+          "tp_fee_rub_per_kw": 5200,
+          "gas_available": true
         }
       ]
     },
@@ -49,18 +79,35 @@
       "networks": {
         "gas": true,
         "free_power_mw": 60,
+        "free_power_kva": 720,
         "tp_fee_rub_per_kw": 3500,
-        "distance_to_substation_km": 4
+        "distance_to_substation_km": 4,
+        "nearest_substation_name": "ПС (демо)",
+        "notes": "Значения примерные для демо."
       },
       "economy": {
         "avg_salary_rub_2025": 90515,
         "env_index_2024": 250,
         "avg_rent_rub": 35000,
-        "energy_tariff_rub_kwh": 5.9
+        "energy_tariff_rub_kwh": 5.9,
+        "eco_class_iza": 2
       },
       "social": {
         "kindergarten_provision_places_per_100_children": 75,
-        "colleges": ["Колледж (демо)"]
+        "colleges": [
+          {
+            "name": "Колледж (демо)",
+            "specialties": ["сварщики", "операторы ЛПМ", "технологи"]
+          }
+        ]
+      },
+      "market": {
+        "sales_radius_km": 340,
+        "notes": "Фиксированная модель радиуса сбыта 300–500 км (ТЗ)."
+      },
+      "suppliers": {
+        "steel": ["nlmk_lipetsk", "severstal_cherepovets"],
+        "insulation": ["insulation_demo"]
       },
       "sites": [
         {
@@ -68,7 +115,20 @@
           "name": "Площадка 1 (демо)",
           "location": {"lat": 55.70, "lon": 49.25},
           "railway": false,
-          "distance_to_highway_km": 8
+          "distance_to_highway_km": 8,
+          "distance_to_substation_km": 4,
+          "tp_fee_rub_per_kw": 3500,
+          "gas_available": true
+        },
+        {
+          "id": "tatarstan-002",
+          "name": "Площадка 2 (демо)",
+          "location": {"lat": 56.05, "lon": 50.20},
+          "railway": true,
+          "distance_to_highway_km": 22,
+          "distance_to_substation_km": 3.0,
+          "tp_fee_rub_per_kw": 3900,
+          "gas_available": true
         }
       ]
     },
@@ -85,18 +145,35 @@
       "networks": {
         "gas": true,
         "free_power_mw": 40,
+        "free_power_kva": 520,
         "tp_fee_rub_per_kw": 6500,
-        "distance_to_substation_km": 6
+        "distance_to_substation_km": 6,
+        "nearest_substation_name": "ПС (демо)",
+        "notes": "Значения примерные для демо."
       },
       "economy": {
         "avg_salary_rub_2025": 79000,
         "env_index_2024": 230,
         "avg_rent_rub": 42000,
-        "energy_tariff_rub_kwh": 6.2
+        "energy_tariff_rub_kwh": 6.2,
+        "eco_class_iza": 3
       },
       "social": {
         "kindergarten_provision_places_per_100_children": 72,
-        "colleges": ["Колледж (демо)"]
+        "colleges": [
+          {
+            "name": "Колледж (демо)",
+            "specialties": ["сварщики", "операторы ЛПМ", "технологи"]
+          }
+        ]
+      },
+      "market": {
+        "sales_radius_km": 410,
+        "notes": "Фиксированная модель радиуса сбыта 300–500 км (ТЗ)."
+      },
+      "suppliers": {
+        "steel": ["nlmk_lipetsk", "severstal_cherepovets"],
+        "insulation": ["insulation_demo"]
       },
       "sites": [
         {
@@ -104,7 +181,20 @@
           "name": "Площадка 1 (демо)",
           "location": {"lat": 59.80, "lon": 30.20},
           "railway": true,
-          "distance_to_highway_km": 12
+          "distance_to_highway_km": 12,
+          "distance_to_substation_km": 6,
+          "tp_fee_rub_per_kw": 6500,
+          "gas_available": true
+        },
+        {
+          "id": "lenobl-002",
+          "name": "Площадка 2 (демо)",
+          "location": {"lat": 60.10, "lon": 30.50},
+          "railway": false,
+          "distance_to_highway_km": 9,
+          "distance_to_substation_km": 2.5,
+          "tp_fee_rub_per_kw": 6100,
+          "gas_available": false
         }
       ]
     }
