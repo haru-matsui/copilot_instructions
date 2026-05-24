@@ -4,9 +4,28 @@
       "code": "mosreg",
       "name": "Московская область",
       "center": {"lat": 55.75, "lon": 37.62},
-      "benefits": {"oez": true, "tor": false, "industrial_park": true},
-      "networks": {"gas": true, "free_power_mw": 50},
-      "economy": {"avg_salary_rub_2025": 110000, "env_index_2024": 240, "avg_rent_rub": 50000},
+      "benefits": {
+        "oez": true,
+        "tor": false,
+        "industrial_park": true,
+        "reduced_insurance": false
+      },
+      "networks": {
+        "gas": true,
+        "free_power_mw": 50,
+        "tp_fee_rub_per_kw": 4500,
+        "distance_to_substation_km": 3
+      },
+      "economy": {
+        "avg_salary_rub_2025": 110000,
+        "env_index_2024": 240,
+        "avg_rent_rub": 50000,
+        "energy_tariff_rub_kwh": 6.5
+      },
+      "social": {
+        "kindergarten_provision_places_per_100_children": 70,
+        "colleges": ["Колледж (демо)"]
+      },
       "sites": [
         {
           "id": "mosreg-001",
@@ -21,9 +40,28 @@
       "code": "tatarstan",
       "name": "Республика Татарстан",
       "center": {"lat": 55.79, "lon": 49.12},
-      "benefits": {"oez": true, "tor": true, "industrial_park": true},
-      "networks": {"gas": true, "free_power_mw": 60},
-      "economy": {"avg_salary_rub_2025": 90515, "env_index_2024": 250, "avg_rent_rub": 35000},
+      "benefits": {
+        "oez": true,
+        "tor": true,
+        "industrial_park": true,
+        "reduced_insurance": true
+      },
+      "networks": {
+        "gas": true,
+        "free_power_mw": 60,
+        "tp_fee_rub_per_kw": 3500,
+        "distance_to_substation_km": 4
+      },
+      "economy": {
+        "avg_salary_rub_2025": 90515,
+        "env_index_2024": 250,
+        "avg_rent_rub": 35000,
+        "energy_tariff_rub_kwh": 5.9
+      },
+      "social": {
+        "kindergarten_provision_places_per_100_children": 75,
+        "colleges": ["Колледж (демо)"]
+      },
       "sites": [
         {
           "id": "tatarstan-001",
@@ -38,9 +76,28 @@
       "code": "lenobl",
       "name": "Ленинградская область",
       "center": {"lat": 59.93, "lon": 30.33},
-      "benefits": {"oez": false, "tor": false, "industrial_park": true},
-      "networks": {"gas": true, "free_power_mw": 40},
-      "economy": {"avg_salary_rub_2025": 79000, "env_index_2024": 230, "avg_rent_rub": 42000},
+      "benefits": {
+        "oez": false,
+        "tor": false,
+        "industrial_park": true,
+        "reduced_insurance": false
+      },
+      "networks": {
+        "gas": true,
+        "free_power_mw": 40,
+        "tp_fee_rub_per_kw": 6500,
+        "distance_to_substation_km": 6
+      },
+      "economy": {
+        "avg_salary_rub_2025": 79000,
+        "env_index_2024": 230,
+        "avg_rent_rub": 42000,
+        "energy_tariff_rub_kwh": 6.2
+      },
+      "social": {
+        "kindergarten_provision_places_per_100_children": 72,
+        "colleges": ["Колледж (демо)"]
+      },
       "sites": [
         {
           "id": "lenobl-001",
